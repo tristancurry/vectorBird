@@ -1,4 +1,4 @@
-autoBird
+vectorBird
 ========
 
 game and exploratory vector-learnin' experience
