@@ -3,7 +3,7 @@ class Gate{
   //variable declarations with default values
   float posX = width/2;           //where to put the gate (x-coord)
   float posY = height/2;          //position for gate centre
-  float gateWidth = 100;         //how wide in x-direction to make the gate
+  float gateWidth = 40;         //how wide in x-direction to make the gate
   float clearance = 100;         //how much vertical clearance the gate offers
   float ceiling = 0;             //where the ceiling of the simulation is
   float floor = height;          //where the floor of the simulation is
@@ -43,6 +43,13 @@ class Gate{
     findClearBounds();
   }
   
+  Gate(float _posX, float _posY){
+    posX = _posX;
+    posY = _posY;
+    
+    findClearBounds();
+  }
+  
   Gate(){
     findClearBounds();
   }
@@ -67,7 +74,6 @@ class Gate{
     clearBounds[1] = this.posX + 0.5*gateWidth;
     clearBounds[2] = this.posY - 0.5*clearance;
     clearBounds[3] = this.posY + 0.5*clearance;
-    println(clearBounds);
   }
   
 }
