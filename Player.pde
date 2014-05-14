@@ -92,7 +92,7 @@ class Player{
   
   //method to alter player velocity from boost
   void boost(float compX, float compY){
-    boostCounter = 8;
+    boostCounter = 8 + boostCounter;
     boostFractionX = compX/boostCounter;
     boostFractionY = compY/boostCounter;
     
