@@ -15,6 +15,8 @@ void setup(){
 
 void draw(){
   
+  
+  
   //draw semi-transparent rectangle for neat blur etc
   fill(0,0,0,15);
   noStroke();
@@ -26,6 +28,7 @@ void draw(){
   float g = 0.10;
   
   testPlayer.update(g);
+  checkCollisions();
   
   if(classicMode){
     testPlayer.velY = constrain(testPlayer.velY, boostY, 10);
@@ -51,3 +54,16 @@ void mouseReleased(){
   testPlayer.boost(boostX, boostY);
 
 }
+
+void checkCollisions(){
+  //will adapt this for multiple pipes soon
+  
+  if((testPlayer.posX + 0.5*testPlayer.size) > testGate.clearBounds[0] && (testPlayer.posX - 0.5*testPlayer.size) < testGate.clearBounds[1]){
+    if((testPlayer.posY - 0.5*testPlayer.size) < testGate.clearBounds[2] || (testPlayer.posY + 0.5*testPlayer.size) > testGate.clearBounds[3]){
+      testPlayer.posX = -0.5*testPlayer.size;
+      testPlayer.posY = height/2;
+    }
+  }
+}
+ 
+
