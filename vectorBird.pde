@@ -25,6 +25,25 @@
 //facility for saving screenshots
 //facility for saving parameters between sessions
 
+Player testPlayer;
 
+void setup(){
+  size(960,540);
+  background(0);
+  testPlayer = new Player();
+}
 
+void draw(){
+  
+  
+  
+  float g = 0.03;
+  
+  testPlayer.update(g);
+  testPlayer.display();
+  
+  
+  
+  
+}
 
