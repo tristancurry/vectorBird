@@ -1,13 +1,16 @@
 class Player{
   
   float posX;        //stores x coordinate
-  float posY;        //stores y coordinate
-  
+  float posY;        //stores y coordinate 
   float velX;        //stores x (horizontal) velocity
   float velY;        //stores y (vertical) velocity
-  
   float size;        //stores radius of collision boundary
   
+  int boostCounter;  //how many frames to apply boost over (no instant accn!)
+  float boostFractionX; //stores the calculated amount of boost for each frame
+  float boostFractionY; //stores the calculated amount of boost for each frame
+  
+
 
   ///Constructor: runs once when object is created///
   
@@ -43,14 +46,28 @@ class Player{
   //method to update player parameters (location, velocity etc)
   void update(float gravAccn){
 
-    //update velocity components using acceleration components
-    velY = velY + gravAccn;            
+    
+    
+
+
     
     //update position using velocity components
     posX = posX + velX;                
-    constrain(posX, 0, width);
+    //posX = constrain(posX, 0, width);
     posY = posY + velY;
-    constrain(posY, 0, height);
+    //posY = constrain(posY, 0, height);
+    
+    //update velocity components using acceleration components
+    
+    if(boostCounter > 0){
+      velX = velX + boostFractionX;
+      velY = velY + boostFractionY;
+      boostCounter --;
+    } else {
+      boostCounter = 0;
+    }
+    
+    velY = velY + gravAccn;
       
   }
   
@@ -74,16 +91,22 @@ class Player{
   }
   
   //method to alter player velocity from boost
-  void boost(){
+  void boost(float compX, float compY){
+    boostCounter = 8;
+    boostFractionX = compX/boostCounter;
+    boostFractionY = compY/boostCounter;
     
   }
   
   //method to determine player rotation from velocity
   float findRotation(float compX, float compY){
     float angle = atan(compY/compX);
-    if(compY < 0){
+    
+    //correct the angle if it should really be in quadrants 3 or 4
+    if(compX < 0){
       angle = angle + PI;
     }
+    
     return angle;
   }
   

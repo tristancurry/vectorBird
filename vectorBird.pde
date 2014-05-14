@@ -1,49 +1,53 @@
-//USER PARAMETERS and INTERACTIVE ELEMENTS
-
-//GATES
-//number of gates
-//vertical width of each gate
-//horizontal width of each gate?
-//spacing between gates
-
-//PLAYER
-//size
-//boost components (acceleration vector)
-//when to apply the acceleration
-
-//GENERAL ENVIRONMENT
-//gravity
-//atmosphere drag
-//visibility of collision model
-//visibility of coordinate axes
-//visibility of vectors
-//paths of previous attempts with 'boost' points highlighted
-//visualisation of the boost vector
-
-
-//OTHER THINGS
-//facility for saving screenshots
-//facility for saving parameters between sessions
 
 Player testPlayer;
+Gate testGate;
+float boostX;
+float boostY;
+boolean classicMode = false;  //limits vertical velocity in keeping with traditional FlappyBird
+
 
 void setup(){
   size(960,540);
   background(0);
   testPlayer = new Player();
+  testGate = new Gate();
 }
 
 void draw(){
   
+  //draw semi-transparent rectangle for neat blur etc
+  fill(0,0,0,15);
+  noStroke();
+  rect(0,0,width,height);
   
   
-  float g = 0.03;
+  boostX = 0.00;
+  boostY = -8.50;
+  float g = 0.10;
   
   testPlayer.update(g);
+  
+  if(classicMode){
+    testPlayer.velY = constrain(testPlayer.velY, boostY, 10);
+  }
+  
   testPlayer.display();
+  testGate.display();
   
+  //wrap the player position (for testing purposes)
   
-  
+  if(testPlayer.posX > width + 0.5*testPlayer.size){
+    testPlayer.posX = -0.5*testPlayer.size;
+  }
+    if(testPlayer.posX < -0.5*testPlayer.size){
+    testPlayer.posX = width + 0.5*testPlayer.size;
+  }
   
 }
 
+
+
+void mouseReleased(){
+  testPlayer.boost(boostX, boostY);
+
+}
