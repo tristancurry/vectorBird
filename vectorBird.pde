@@ -54,8 +54,8 @@ void draw(){
   
   
   /*setting up the gates here so that they can be dynamically adjusted using tweak mode...*/
-  numGates = 3;
-  gateWidth = 50;
+  numGates = 4;
+  gateWidth = 60;
   gateClearance = 100;
   
   gateList = new ArrayList();
@@ -67,11 +67,17 @@ void draw(){
   
   
   /*specifying boost values (impulse components) here for dynamic adjustment...*/
+<<<<<<< HEAD
   boostUpX = 0.50;
   boostUpY = -4.00;
   boostDownX = -0.25;
   boostDownY = 2.00;
   float g = 0.00;
+=======
+  boostX = 0.00;
+  boostY = -4.0; /* strength of "kick" (8.5 looks about the same as flappy bird) */
+  float g = 0.00; /* strength of gravity (0.1 looks about the same as flappy bird) */
+>>>>>>> b456e942320f93fd34fe88d96a50740753f38fb7
   bounceDamping = 0.1;
   
   /*update player position and parameters*/
@@ -117,7 +123,36 @@ void draw(){
   
 }
 
+<<<<<<< HEAD
 void boostPlayer(float boostX, float boostY){
+=======
+void keyPressed()
+{
+  switch (keyCode) {
+    case 38: /* up arrow pressed */
+      testPlayer.boost(boostX, boostY);
+//      if(sfx){
+//        //create a little cloud of exhaust particles
+//        for(int i = 0; i < 25; i ++){
+//        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, -1*boostX + random(-1.2,1.2),-1*boostY + random(-1.2,1.2));
+//        exhaustList.add(newExhaust);
+//        }
+//      }
+    break;
+    case 40: /* down arrow pressed */
+      testPlayer.boost(-1*boostX, -1*boostY);
+      if(sfx){
+        //create a little cloud of exhaust particles
+        for(int i = 0; i < 25; i ++){
+        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, -1*boostX - random(-1.2,1.2),-1*boostY - random(-1.2,1.2));
+        exhaustList.add(newExhaust);
+        }
+    }
+  }
+}
+
+void mouseReleased(){
+>>>>>>> b456e942320f93fd34fe88d96a50740753f38fb7
   testPlayer.boost(boostX, boostY);
   if(sfx){
     //create a little cloud of exhaust particles
