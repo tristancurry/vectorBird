@@ -1,13 +1,11 @@
-boolean[] downKeys = new boolean[256]; //declare an ARRAY of booleans, effectively a row of 256 switches that can be off or on
-boolean[] downKeysOld = new boolean[256];
 
 Player testPlayer;
 
 ArrayList gateList;          /*dynamic list of Gates*/
 ArrayList exhaustList;       /*dynamic list to store exhaust particles*/
 
-float boostUpX;
-float boostUpY;
+float boostX;
+float boostY;
 float boostDownX;
 float boostDownY;
 float bounceDamping;
@@ -38,17 +36,7 @@ void draw(){
   
   /*User input*/
   
-  //if w or W are pressed, boost UP, unless key is already pressed
-  if((downKeys[87] && !downKeysOld[87])||(downKeys[119] && !downKeysOld[119])){
-    boostPlayer(boostUpX, boostUpY);
-    downKeysOld[87] = true;
-    downKeysOld[119] = true;
-  } //if s or S are pressed, boost UP, unless key is already pressed
-  else if((downKeys[83] && !downKeysOld[83])||(downKeys[115] && !downKeysOld[115])){
-    boostPlayer(boostDownX, boostDownY);
-    downKeysOld[83] = true;
-    downKeysOld[115] = true;
-  } 
+  
   
   
   
@@ -68,10 +56,8 @@ void draw(){
   
   /*specifying boost values (impulse components) here for dynamic adjustment...*/
 
-  boostUpX = 0.50;
-  boostUpY = -4.00;
-  boostDownX = -0.25;
-  boostDownY = 2.00;
+  boostX = 0;
+  boostY = -4.00;
   float g = 0.00;
 
   bounceDamping = 0.1;
@@ -85,7 +71,7 @@ void draw(){
   
   /*constrain y-velocity if classic mode is on*/
   if(classicMode){
-    testPlayer.velY = constrain(testPlayer.velY, boostUpY, 10);
+    testPlayer.velY = constrain(testPlayer.velY, boostY, 10);
   }
   
 
@@ -134,6 +120,15 @@ void keyPressed()
     break;
     case 40: /* down arrow pressed */
       testPlayer.boost(-1*boostX, -1*boostY);
+       if(sfx){
+        //create a little cloud of exhaust particles
+        for(int i = 0; i < 25; i ++){
+        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, boostX + random(-1.2,1.2),boostY + random(-1.2,1.2));
+        exhaustList.add(newExhaust);
+        }
+    }
+  }
+}
 
 void boostPlayer(float boostX, float boostY){
      testPlayer.boost(-1*boostX, -1*boostY);
@@ -148,32 +143,8 @@ void boostPlayer(float boostX, float boostY){
 
 
 void mouseReleased(){
-boostPlayer(boostUpX, boostUpY);
+boostPlayer(boostX, boostY);
   
 }
-//
-//
-//void keyPressed() {
-// if (key<256) {  //if a key is pressed, and its numerical code is less than 256,
-//   downKeys[key] = true;  //set the corresponding element of downKeys to 'true'
-//   /*  for(int i = 0; i< downKeys.length; i++){
-//     if(downKeys[i]){  
-//       println(i);
-//       } //this FOR LOOP is optional...it goes through the downKeys array
-//         //one entry at a time, and if it encounters a 'true' (which corresponds to a pressed key)
-//         //it prints the value of the key to the console (below), using the println() function.
-//         //This is useful for working out the numerical code for particular keys.
-//         //For instance, 'space' is 32.
-//   }*/
-//     
-// }
-//}
-//
-//void keyReleased() { //this function returns elements of downKeys to 'false'
-// if (key<256) {      //if a change in the key's state is detected.
-//   downKeys[key] = false;
-//   downKeysOld[key] = false;
-//   //println(0);
-//  }
-//}
+
 
