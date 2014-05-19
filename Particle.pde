@@ -24,7 +24,7 @@ class Particle{
     posX = 20;
     posY = height/2;
     velX = 3;
-    velY = 0;
+    velY = 1;  /* sets initial vertical velocity (upwards is positive) */
     size = 20;
      
  }
