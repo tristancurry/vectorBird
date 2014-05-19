@@ -1,8 +1,8 @@
 class Player extends Particle {
 
-  int boostCounter;  //how many frames to apply boost over (no instant accn!)
-  float boostFractionX; //stores the calculated amount of boost for each frame
-  float boostFractionY; //stores the calculated amount of boost for each frame
+//  int boostCounter;  //how many frames to apply boost over (no instant accn!)
+//  float boostFractionX; //stores the calculated amount of boost for each frame
+//  float boostFractionY; //stores the calculated amount of boost for each frame
   
 
 
@@ -49,21 +49,25 @@ class Player extends Particle {
   }
   
   //methods to alter player velocity from boost
-  void boost(float compX, float compY){
-    boostCounter = 1 + boostCounter;
-    boostFractionX = compX/boostCounter;
-    boostFractionY = compY/boostCounter;  
+//  void boost(float compX, float compY){
+//    boostCounter = 1 + boostCounter;
+//    boostFractionX = compX/boostCounter;
+//    boostFractionY = compY/boostCounter;  
+//  }
+
+ void boost(float compX, float compY){
+      velY = velY + compY; 
   }
-  
+
   void boostUpdate(){
-      if(boostCounter > 0){
-      velX = velX + boostFractionX;
-      velY = velY + boostFractionY;
-      boostCounter --;
-    } else {
-      boostCounter = 0;
-    }
-    
+//      if(boostCounter > 0){
+//      velX = velX + boostFractionX;
+//      velY = velY + boostFractionY;
+//      boostCounter --;
+//    } else {
+//      boostCounter = 0;
+//    }
+//    
   }
   
   //method to determine player rotation from velocity

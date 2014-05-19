@@ -25,7 +25,7 @@ class Particle{
     posY = height/2;
     velX = 2;  /* sets initial horizontal velocity (right is positive) */
     velY = 1;  /* sets initial vertical velocity (upwards is positive) */
-    size = 20;
+    size = birdDiameter;
      
  }
  
@@ -34,7 +34,7 @@ class Particle{
     posY = _posY;
     velX = _velX;
     velY = _velY;
-    size = 20;
+    size = birdDiameter;
   }
   
   
@@ -51,7 +51,7 @@ class Particle{
     
     //update velocity components using acceleration components
    
-    velY = velY + gravAccn;
+//    velY = velY + gravAccn;
       
   }
   

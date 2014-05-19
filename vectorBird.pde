@@ -2,21 +2,22 @@
 Player testPlayer;
 
 ArrayList gateList;          /*dynamic list of Gates*/
-ArrayList exhaustList;       /*dynamic list to store exhaust particles*/
+ArrayList exhaustList;       /*dynamic list to store exhaust particles (can this be done as a local variable in the exhaust code?) */
 
-float boostX;
+//float boostX;
 float boostY;
-float boostDownX;
-float boostDownY;
-float bounceDamping;
+//float boostDownX;
+//float boostDownY;
+float bounceDamping;          /* the proportion of vertical velocity lost each bounce (when bumper mode engaged) */
 
-boolean classicMode = false;  /*limits vertical velocity in keeping with traditional FlappyBird*/
+// boolean classicMode = false;  /*limits vertical velocity in keeping with traditional FlappyBird*/
 boolean bumperBird = true;    /*like bumper bowling - player will bounce off surfaces instead of dying. Glitchy! */
 boolean sfx = true;           /*displays neat rocket exhaust effect. */
 
 int numGates;
 float gateWidth;
 float gateClearance;
+float birdDiameter = 40;
 
 void setup(){
   size(960,540);
@@ -34,11 +35,7 @@ void draw(){
   noStroke();
   rect(0,0,width,height);
   
-  /*User input*/
-  
-  
-  
-  
+  /*User input*/  
   
   
   /*setting up the gates here so that they can be dynamically adjusted using tweak mode...*/
@@ -56,9 +53,9 @@ void draw(){
   
   /*specifying boost values (impulse components) here for dynamic adjustment...*/
 
-  boostX = 0;
+//  boostX = 0;
   boostY = -4.00;
-  float g = 0.00;
+  float g = 0.00; /* should this be at the top with the rest of the declarations? */
 
   bounceDamping = 0.1;
   
@@ -70,9 +67,9 @@ void draw(){
   checkCollisions(bumperBird, testPlayer);
   
   /*constrain y-velocity if classic mode is on*/
-  if(classicMode){
-    testPlayer.velY = constrain(testPlayer.velY, boostY, 10);
-  }
+//  if(classicMode){
+//    testPlayer.velY = constrain(testPlayer.velY, boostY, 10);
+//  }
   
 
 
@@ -109,21 +106,21 @@ void keyPressed()
 {
   switch (keyCode) {
     case 38: /* up arrow pressed */
-      testPlayer.boost(boostX, boostY);
+      testPlayer.boost(0, boostY);
       if(sfx){
         //create a little cloud of exhaust particles
         for(int i = 0; i < 25; i ++){
-        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, -1*boostX,-1*boostY);
+        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, 0,-1*boostY);
         exhaustList.add(newExhaust);
         }
       }
     break;
     case 40: /* down arrow pressed */
-      testPlayer.boost(-1*boostX, -1*boostY);
+      testPlayer.boost(0, -1*boostY);
        if(sfx){
         //create a little cloud of exhaust particles
         for(int i = 0; i < 25; i ++){
-        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, boostX,boostY);
+        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, 0,boostY);
         exhaustList.add(newExhaust);
         }
     }
@@ -142,9 +139,9 @@ void boostPlayer(float boostX, float boostY){
   }
 
 
-void mouseReleased(){
-boostPlayer(boostX, boostY);
-  
-}
+//void mouseReleased(){
+//boostPlayer(0, boostY);
+//  
+//}
 
 
