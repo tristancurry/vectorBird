@@ -41,6 +41,8 @@ class Player extends Particle {
       fill(100,0,100,255);
       
       ellipse(0,0,size,size);
+      //fill(100,0,100,255);
+      //ellipse(0,0,1,1);
       line(0,0,0.5*size,0);
     popMatrix();
       

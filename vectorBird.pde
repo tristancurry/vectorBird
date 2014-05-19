@@ -113,7 +113,7 @@ void keyPressed()
       if(sfx){
         //create a little cloud of exhaust particles
         for(int i = 0; i < 25; i ++){
-        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, -1*boostX + random(-1.2,1.2),-1*boostY + random(-1.2,1.2));
+        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, -1*boostX,-1*boostY);
         exhaustList.add(newExhaust);
         }
       }
@@ -123,7 +123,7 @@ void keyPressed()
        if(sfx){
         //create a little cloud of exhaust particles
         for(int i = 0; i < 25; i ++){
-        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, boostX + random(-1.2,1.2),boostY + random(-1.2,1.2));
+        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, boostX,boostY);
         exhaustList.add(newExhaust);
         }
     }
@@ -135,7 +135,7 @@ void boostPlayer(float boostX, float boostY){
       if(sfx){
         //create a little cloud of exhaust particles
         for(int i = 0; i < 25; i ++){
-        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, boostX + random(-1.2,1.2),boostY + random(-1.2,1.2));
+        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, boostX,boostY);
         exhaustList.add(newExhaust);
         }
     }
