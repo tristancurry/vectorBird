@@ -30,7 +30,7 @@ class Player extends Particle {
   //method to draw player to screen
   void display(){
     float rotation = findRotation(velX,velY);
-    
+    float drawsize = max(30,size);
     
     pushMatrix();
       translate(posX, posY);
@@ -40,10 +40,13 @@ class Player extends Particle {
       stroke(255,255,0,255);
       fill(100,0,100,255);
       
+      ellipse(0,0,drawsize,drawsize);
+
+      fill(0,0,0,0);
+      stroke(255,255,255,255);
       ellipse(0,0,size,size);
-      //fill(100,0,100,255);
-      //ellipse(0,0,1,1);
-      line(0,0,0.5*size,0);
+      stroke(255,255,0,255);
+      line(0,0,0.5*drawsize,0);
     popMatrix();
       
   }

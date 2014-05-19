@@ -17,7 +17,7 @@ boolean sfx = true;           /*displays neat rocket exhaust effect. */
 int numGates;
 float gateWidth;
 float gateClearance;
-float birdDiameter = 40;
+float birdDiameter = 5;
 
 void setup(){
   size(960,540);
