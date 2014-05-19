@@ -23,7 +23,7 @@ class Particle{
   Particle(){
     posX = 20;
     posY = height/2;
-    velX = 3;
+    velX = 2;  /* sets initial horizontal velocity (right is positive) */
     velY = 1;  /* sets initial vertical velocity (upwards is positive) */
     size = 20;
      

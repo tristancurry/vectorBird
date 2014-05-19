@@ -99,20 +99,20 @@ void keyPressed()
   switch (keyCode) {
     case 38: /* up arrow pressed */
       testPlayer.boost(boostX, boostY);
-//      if(sfx){
-//        //create a little cloud of exhaust particles
-//        for(int i = 0; i < 25; i ++){
-//        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, -1*boostX + random(-1.2,1.2),-1*boostY + random(-1.2,1.2));
-//        exhaustList.add(newExhaust);
-//        }
-//      }
+      if(sfx){
+        //create a little cloud of exhaust particles
+        for(int i = 0; i < 25; i ++){
+        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, -1*boostX + random(-1.2,1.2),-1*boostY + random(-1.2,1.2));
+        exhaustList.add(newExhaust);
+        }
+      }
     break;
     case 40: /* down arrow pressed */
       testPlayer.boost(-1*boostX, -1*boostY);
       if(sfx){
         //create a little cloud of exhaust particles
         for(int i = 0; i < 25; i ++){
-        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, -1*boostX - random(-1.2,1.2),-1*boostY - random(-1.2,1.2));
+        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, boostX + random(-1.2,1.2),boostY + random(-1.2,1.2));
         exhaustList.add(newExhaust);
         }
     }
