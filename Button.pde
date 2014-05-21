@@ -31,19 +31,12 @@ class Button {
   }
   
   void detectMouseOver(){  //uh oh, broke modularity here, but I was in a hurry...
-    if(zoom){
-      println((posX + 0.5*buttonWidth)*(1.0*width/arenaWidth) + " " + (posY + 0.5*buttonHeight)*(1.0*width/arenaWidth));
+   
+     
       if(mouseX > (posX - 0.5*buttonWidth)*(1.0*width/arenaWidth) && mouseX < (posX + 0.5*buttonWidth)*(1.0*width/arenaWidth) && mouseY > (posY - 0.5*buttonHeight)*(1.0*width/arenaWidth) && mouseY < (posY + 0.5*buttonHeight)*(1.0*width/arenaWidth)){
         mouseIn = true;
         } else {
         mouseIn = false;
-      }
-    }else{
-      if(mouseX > posX - 0.5*buttonWidth && mouseX < posX + 0.5*buttonWidth && mouseY > posY - 0.5*buttonHeight && mouseY < posY + 0.5*buttonHeight){
-        mouseIn = true;
-      } else {
-      mouseIn = false;
-      }
     } 
   }
   

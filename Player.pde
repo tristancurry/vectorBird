@@ -62,16 +62,7 @@ class Player extends Particle {
       velY = velY + compY; 
   }
 
-  void boostUpdate(){
-//      if(boostCounter > 0){
-//      velX = velX + boostFractionX;
-//      velY = velY + boostFractionY;
-//      boostCounter --;
-//    } else {
-//      boostCounter = 0;
-//    }
-//    
-  }
+
   
   //method to determine player rotation from velocity
   float findRotation(float compX, float compY){
