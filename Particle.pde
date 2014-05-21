@@ -41,17 +41,13 @@ class Particle{
   ///Methods///
   
   //method to update player parameters (location, velocity etc)
-  void update(float gravAccn){
+  void update(){
 
-
-    
     //update position using velocity components
     posX = posX + velX;                
     posY = posY + velY;
     
-    //update velocity components using acceleration components
-   
-//    velY = velY + gravAccn;
+
       
   }
   
