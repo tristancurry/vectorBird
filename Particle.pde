@@ -22,7 +22,7 @@ class Particle{
   ///Alternative constructors: in case user doesn't specify all arguments///
   Particle(){
     posX = 20;
-    posY = height/2;
+    posY = arenaHeight/2;
 
      
  }

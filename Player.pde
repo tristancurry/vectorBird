@@ -39,7 +39,7 @@ class Player extends Particle {
       translate(posX, posY);
       rotate(rotation);
       ellipseMode(CENTER);
-      strokeWeight(3);
+      strokeWeight(2);
       stroke(strokeColour);
       fill(ellipseColour);
       

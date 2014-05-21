@@ -1,12 +1,12 @@
 class Gate{
   
   //variable declarations with default values
-  float posX = width/2;           //where to put the gate (x-coord)
-  float posY = height/2;          //position for gate centre
+  float posX = viewportWidth/2;           //where to put the gate (x-coord)
+  float posY = arenaHeight/2;          //position for gate centre
   float gateWidth = 40;         //how wide in x-direction to make the gate
   float clearance = 100;         //how much vertical clearance the gate offers
   float ceiling = 0;             //where the ceiling of the simulation is
-  float floor = height;          //where the floor of the simulation is
+  float floor = arenaHeight;          //where the floor of the simulation is
   float[] clearBounds = new float[4];   //used to store the extent of the clear region in the gate for collision detection
   
   
