@@ -6,7 +6,8 @@ float boostY = -4.00;
 
 boolean bumperBird = true;    /*like bumper bowling - player will bounce off surfaces instead of dying. Glitchy! */
 boolean sfx = true;   /*displays neat rocket exhaust effect. */
-float bounceDamping = 0.10;
+float bounceDamping = 0.00;
+boolean zoom = false;
 
 Player testPlayer;
 ArrayList gateList;          /*dynamic list of Gates*/
@@ -35,10 +36,7 @@ void setup(){
 //main jobs: clear background, update positions of all objects and display them on the screen
 void draw(){
   
-  /*draw semi-transparent background*/
-  fill(0,0,0,255);
-  noStroke();
-  rect(0,0,width,height);
+   background(0);
   
 
   /*update player position*/
@@ -48,19 +46,34 @@ void draw(){
   checkCollisions(bumperBird, testPlayer);  
   
   /*draw player and gates to the screen*/
+  
   pushMatrix();
-  if(testPlayer.posX > offsetX && testPlayer.posX < arenaWidth - width + offsetX){
+  if(zoom){
+   translate(0,height/3.0);
+   scale(1.0*width/arenaWidth);
+  } else if(testPlayer.posX > offsetX && testPlayer.posX < arenaWidth - width + offsetX){
   translate(-1*testPlayer.posX + offsetX, 0);
   }
-  if(testPlayer.posX >= arenaWidth - width + offsetX && testPlayer.posX < arenaWidth){
+  else if(testPlayer.posX >= arenaWidth - width + offsetX && testPlayer.posX < arenaWidth){
   translate(-1*(arenaWidth - width), 0);
   }
+  
+  /*draw semi-transparent background*/
+  fill(0,0,40,255);
+  noStroke();
+  rect(0,0,arenaWidth,height);
+  
   testPlayer.display();
   
   for(int i = 0; i < gateList.size(); i++){
     Gate thisGate = (Gate) gateList.get(i);
     thisGate.display();
   }
+  
+  strokeWeight(3);
+  stroke(255,255,255,255);
+  line(0,0,arenaWidth,0);
+  line(0,height,arenaWidth,height);
   
   /* if special effects are active, update and display the exhaust particles */
   if(sfx){
@@ -98,6 +111,9 @@ void keyPressed()
         //create a little cloud of exhaust particles
         makeExhaust(0, boostY);
     }
+    break;
+    case 90: /* Z-key pressed */
+      zoom = !zoom;
   }
 }
 
