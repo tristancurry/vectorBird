@@ -114,6 +114,12 @@ void keyPressed()
     break;
     case 90: /* Z-key pressed */
       zoom = !zoom;
+    break;
+    case 83: /* S-key pressed */
+      saveGates();
+    break;
+    case 76: /* L-key pressed */
+      loadGates();
   }
 }
 
