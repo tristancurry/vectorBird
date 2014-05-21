@@ -69,6 +69,9 @@ class Gate{
     rect(clearBounds[0], clearBounds[3], clearBounds[1] - clearBounds[0], floor - clearBounds[3]);
   }
   
+
+
+  
   void findClearBounds(){
     clearBounds[0] = this.posX - 0.5*gateWidth;
     clearBounds[1] = this.posX + 0.5*gateWidth;

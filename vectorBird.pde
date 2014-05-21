@@ -10,6 +10,7 @@ float bounceDamping = 0.00;
 boolean zoom = false;
 
 Player testPlayer;
+Button testButton;
 ArrayList gateList;          /*dynamic list of Gates*/
 ArrayList exhaustList;       /*dynamic list to store exhaust particles (can this be done as a local variable in the exhaust code?) */
 int arenaWidth = 2048;
@@ -29,6 +30,8 @@ void setup(){
   Gate newGate = new Gate(arenaWidth*(i+1)/(numGates + 1) + 0.3*width, height/2, gateWidth, gateClearance);
   gateList.add(newGate);
   }    
+  
+  testButton = new Button(40, height + 80, "hello");
 }
 
 
@@ -64,7 +67,10 @@ void draw(){
   rect(0,0,arenaWidth,height);
   
   testPlayer.display();
-  
+  println(mouseX +" "+ mouseY);
+  println(testButton.posX + " " + testButton.posY);
+  testButton.detectMouseOver();
+  testButton.display();
   for(int i = 0; i < gateList.size(); i++){
     Gate thisGate = (Gate) gateList.get(i);
     thisGate.display();
