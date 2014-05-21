@@ -11,7 +11,7 @@ float bounceDamping = 0.10;
 Player testPlayer;
 ArrayList gateList;          /*dynamic list of Gates*/
 ArrayList exhaustList;       /*dynamic list to store exhaust particles (can this be done as a local variable in the exhaust code?) */
-
+int arenaWidth = 960;
 
 
 //SETUP runs once at program start
@@ -25,7 +25,7 @@ void setup(){
   
   /*generate gates */
   for(int i = 0; i < numGates; i++){
-  Gate newGate = new Gate(width*(i+1)/(numGates + 1), height/2, gateWidth, gateClearance);
+  Gate newGate = new Gate(arenaWidth*(i+1)/(numGates + 1), height/2, gateWidth, gateClearance);
   gateList.add(newGate);
   }    
 }
@@ -36,7 +36,7 @@ void setup(){
 void draw(){
   
   /*draw semi-transparent background*/
-  fill(0,0,0,30);
+  fill(0,0,0,255);
   noStroke();
   rect(0,0,width,height);
   
