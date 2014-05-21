@@ -1,3 +1,14 @@
+String levelName = "Hello Bird";
+String author = "Hieronymous Bosch";
+int par = 24;
+
+float startingVeloX = 2.0;
+float startingVeloY = 1.0;
+color lineColour = color(255,255,255,255);
+color textColour = color(255,255,255,255);
+color birdColour = color(50,0,50,255);
+color skyColour = color(0,0,40,255);
+
 int numGates = 4;
 float gateWidth = 60;
 float gateClearance = 100;
@@ -9,29 +20,28 @@ boolean sfx = true;   /*displays neat rocket exhaust effect. */
 float bounceDamping = 0.00;
 boolean zoom = false;
 
-Player testPlayer;
-Button testButton;
+Player goodPlayer;
 ArrayList gateList;          /*dynamic list of Gates*/
 ArrayList exhaustList;       /*dynamic list to store exhaust particles (can this be done as a local variable in the exhaust code?) */
-int arenaWidth = 2048;
+int arenaWidth = 5096;
 int offsetX = 200;
 
 //SETUP runs once at program start
 void setup(){
-  size(640,540);
+  size(1024,768);
   background(0);
   
-  testPlayer = new Player();
+  goodPlayer = new Player(20,height/2, startingVeloX, startingVeloY);
   exhaustList = new ArrayList();
   gateList = new ArrayList();
   
   /*generate gates */
   for(int i = 0; i < numGates; i++){
-  Gate newGate = new Gate(arenaWidth*(i+1)/(numGates + 1) + 0.3*width, height/2, gateWidth, gateClearance);
+    Gate newGate = new Gate(arenaWidth*(i+1)/(numGates + 1) + 0.3*width, height/2, gateWidth, gateClearance);
   gateList.add(newGate);
   }    
-  
-  testButton = new Button(40, height + 80, "hello");
+     
+
 }
 
 
@@ -43,10 +53,10 @@ void draw(){
   
 
   /*update player position*/
-  testPlayer.update();
+  goodPlayer.update();
   
   /*see if player has bumped into anything=*/
-  checkCollisions(bumperBird, testPlayer);  
+  checkCollisions(bumperBird, goodPlayer);  
   
   /*draw player and gates to the screen*/
   
@@ -54,30 +64,28 @@ void draw(){
   if(zoom){
    translate(0,height/3.0);
    scale(1.0*width/arenaWidth);
-  } else if(testPlayer.posX > offsetX && testPlayer.posX < arenaWidth - width + offsetX){
-  translate(-1*testPlayer.posX + offsetX, 0);
+  } else if(goodPlayer.posX > offsetX && goodPlayer.posX < arenaWidth - width + offsetX){
+  translate(-1*goodPlayer.posX + offsetX, 0);
   }
-  else if(testPlayer.posX >= arenaWidth - width + offsetX && testPlayer.posX < arenaWidth){
+  else if(goodPlayer.posX >= arenaWidth - width + offsetX && goodPlayer.posX < arenaWidth){
   translate(-1*(arenaWidth - width), 0);
   }
   
   /*draw semi-transparent background*/
-  fill(0,0,40,255);
+  fill(skyColour);
   noStroke();
   rect(0,0,arenaWidth,height);
   
-  testPlayer.display();
-  println(mouseX +" "+ mouseY);
-  println(testButton.posX + " " + testButton.posY);
-  testButton.detectMouseOver();
-  testButton.display();
+  goodPlayer.display();
+
+
   for(int i = 0; i < gateList.size(); i++){
     Gate thisGate = (Gate) gateList.get(i);
     thisGate.display();
   }
   
   strokeWeight(3);
-  stroke(255,255,255,255);
+  stroke(lineColour);
   line(0,0,arenaWidth,0);
   line(0,height,arenaWidth,height);
   
@@ -88,13 +96,16 @@ void draw(){
 
 popMatrix();
   /*if player leaves the screen, start them again on the other side */  
-  if(testPlayer.posX > arenaWidth + 0.5*testPlayer.size){
-    testPlayer.posX = -0.5*testPlayer.size;
+  if(goodPlayer.posX > arenaWidth + 0.5*goodPlayer.size){
+    goodPlayer.posX = -0.5*goodPlayer.size;
   }
-  if(testPlayer.posX < -0.5*testPlayer.size){
-    testPlayer.posX = arenaWidth + 0.5*testPlayer.size;
+  if(goodPlayer.posX < -0.5*goodPlayer.size){
+    goodPlayer.posX = arenaWidth + 0.5*goodPlayer.size;
   }
   
+
+
+
 
   
 }
@@ -105,14 +116,14 @@ void keyPressed()
 {
   switch (keyCode) {
     case 38: /* up arrow pressed */
-      testPlayer.boost(0, boostY);
+      goodPlayer.boost(0, boostY);
       if(sfx){
         //create a little cloud of exhaust particles
         makeExhaust(0,-1*boostY);
       }
     break;
     case 40: /* down arrow pressed */
-      testPlayer.boost(0, -1*boostY);
+      goodPlayer.boost(0, -1*boostY);
        if(sfx){
         //create a little cloud of exhaust particles
         makeExhaust(0, boostY);
@@ -125,7 +136,7 @@ void keyPressed()
       saveGates();
     break;
     case 76: /* L-key pressed */
-      loadGates();
+      loadLevel("levelX");
   }
 }
 
@@ -133,7 +144,7 @@ void keyPressed()
 
 void makeExhaust(float _velX, float _velY){
   for(int i = 0; i < 25; i ++){
-        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, _velX,_velY);
+        Exhaust newExhaust = new Exhaust(goodPlayer.posX, goodPlayer.posY, _velX,_velY);
         exhaustList.add(newExhaust);
         }
 }
