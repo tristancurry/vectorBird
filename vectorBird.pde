@@ -11,12 +11,12 @@ float bounceDamping = 0.10;
 Player testPlayer;
 ArrayList gateList;          /*dynamic list of Gates*/
 ArrayList exhaustList;       /*dynamic list to store exhaust particles (can this be done as a local variable in the exhaust code?) */
-int arenaWidth = 960;
-
+int arenaWidth = 2048;
+int offsetX = 200;
 
 //SETUP runs once at program start
 void setup(){
-  size(960,540);
+  size(640,540);
   background(0);
   
   testPlayer = new Player();
@@ -25,7 +25,7 @@ void setup(){
   
   /*generate gates */
   for(int i = 0; i < numGates; i++){
-  Gate newGate = new Gate(arenaWidth*(i+1)/(numGates + 1), height/2, gateWidth, gateClearance);
+  Gate newGate = new Gate(arenaWidth*(i+1)/(numGates + 1) + 0.3*width, height/2, gateWidth, gateClearance);
   gateList.add(newGate);
   }    
 }
@@ -48,26 +48,35 @@ void draw(){
   checkCollisions(bumperBird, testPlayer);  
   
   /*draw player and gates to the screen*/
+  pushMatrix();
+  if(testPlayer.posX > offsetX && testPlayer.posX < arenaWidth - width + offsetX){
+  translate(-1*testPlayer.posX + offsetX, 0);
+  }
+  if(testPlayer.posX >= arenaWidth - width + offsetX && testPlayer.posX < arenaWidth){
+  translate(-1*(arenaWidth - width), 0);
+  }
   testPlayer.display();
   
   for(int i = 0; i < gateList.size(); i++){
     Gate thisGate = (Gate) gateList.get(i);
     thisGate.display();
   }
-
-
-  /*if player leaves the screen, start them again on the other side */  
-  if(testPlayer.posX > width + 0.5*testPlayer.size){
-    testPlayer.posX = -0.5*testPlayer.size;
-  }
-  if(testPlayer.posX < -0.5*testPlayer.size){
-    testPlayer.posX = width + 0.5*testPlayer.size;
-  }
   
-/* if special effects are active, update and display the exhaust particles */
+  /* if special effects are active, update and display the exhaust particles */
   if(sfx){
     updateExhaust();
   }
+
+popMatrix();
+  /*if player leaves the screen, start them again on the other side */  
+  if(testPlayer.posX > arenaWidth + 0.5*testPlayer.size){
+    testPlayer.posX = -0.5*testPlayer.size;
+  }
+  if(testPlayer.posX < -0.5*testPlayer.size){
+    testPlayer.posX = arenaWidth + 0.5*testPlayer.size;
+  }
+  
+
   
 }
 
