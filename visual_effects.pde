@@ -13,3 +13,10 @@ void updateExhaust(){
   }
   
 }
+
+void makeExhaust(float _velX, float _velY){
+  for(int i = 0; i < 25; i ++){
+        Exhaust newExhaust = new Exhaust(goodPlayer.posX, goodPlayer.posY, _velX,_velY);
+        exhaustList.add(newExhaust);
+        }
+}

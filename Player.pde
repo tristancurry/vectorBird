@@ -1,25 +1,28 @@
 class Player extends Particle {
 
-//  int boostCounter;  //how many frames to apply boost over (no instant accn!)
-//  float boostFractionX; //stores the calculated amount of boost for each frame
-//  float boostFractionY; //stores the calculated amount of boost for each frame
-  
+  color strokeColour = color(255,255,0,255);
+  color ellipseColour = color(100,0,100,255);
 
 
   ///Constructor: runs once when object is created///
   
-  Player(float _posX, float _posY, float _velX, float _velY, float _size){
+  Player(float _posX, float _posY, float _velX, float _velY, float _size, color _strokeColour, color _ellipseColour){
     super( _posX,  _posY,  _velX, _velY, _size);
+    strokeColour = _strokeColour;
+    ellipseColour = _ellipseColour;
+    
   }
   
   ///Alternative constructors: in case user doesn't specify all arguments///
   Player(){
     super();
+    size = 5;
      
  }
  
    Player(float _posX, float _posY, float _velX, float _velY){
     super( _posX,  _posY,  _velX, _velY);
+    size = 5;
   }
   
   
@@ -36,14 +39,14 @@ class Player extends Particle {
       translate(posX, posY);
       rotate(rotation);
       ellipseMode(CENTER);
-      strokeWeight(3);
-      stroke(255,255,0,255);
-      fill(100,0,100,255);
+      strokeWeight(2);
+      stroke(strokeColour);
+      fill(ellipseColour);
       
       ellipse(0,0,drawsize,drawsize);
 
-      fill(0,0,0,0);
-      stroke(255,255,255,255);
+      fill(0,0,0,255);
+      stroke(strokeColour);
       ellipse(0,0,size,size);
       stroke(255,255,0,255);
       line(0,0,0.5*drawsize,0);
@@ -62,16 +65,7 @@ class Player extends Particle {
       velY = velY + compY; 
   }
 
-  void boostUpdate(){
-//      if(boostCounter > 0){
-//      velX = velX + boostFractionX;
-//      velY = velY + boostFractionY;
-//      boostCounter --;
-//    } else {
-//      boostCounter = 0;
-//    }
-//    
-  }
+
   
   //method to determine player rotation from velocity
   float findRotation(float compX, float compY){

@@ -2,9 +2,9 @@ class Particle{
   
   float posX;        //stores x coordinate
   float posY;        //stores y coordinate 
-  float velX;        //stores x (horizontal) velocity
-  float velY;        //stores y (vertical) velocity
-  float size;        //stores radius of collision boundary
+  float velX = 1;        //stores x (horizontal) velocity
+  float velY = 1;        //stores y (vertical) velocity
+  float size = 3;        //stores radius of collision boundary
   
  
 
@@ -22,10 +22,8 @@ class Particle{
   ///Alternative constructors: in case user doesn't specify all arguments///
   Particle(){
     posX = 20;
-    posY = height/2;
-    velX = 2;  /* sets initial horizontal velocity (right is positive) */
-    velY = 1;  /* sets initial vertical velocity (upwards is positive) */
-    size = birdDiameter;
+    posY = arenaHeight/2;
+
      
  }
  
@@ -34,7 +32,7 @@ class Particle{
     posY = _posY;
     velX = _velX;
     velY = _velY;
-    size = birdDiameter;
+
   }
   
   

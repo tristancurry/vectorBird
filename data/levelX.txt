@@ -1,0 +1,13 @@
+Level Name:Crazy Froge
+Author:Joe Blogs
+Par:20
+Gate heights:150.0, 230.0, 270.0, 480.0, 100.0, 260.0, 80.0
+Gate gap:120.0
+Gate width:250.0
+Bird collision diameter:12
+Starting veloX:2.0
+Starting veloY:1.0
+Line colour:0,0,0,255
+Text colour:255,255,255,255
+Bird colour:255,0,0,255
+Sky colour:150,150,200,255

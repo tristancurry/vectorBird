@@ -35,7 +35,7 @@ void checkCollisions(boolean bounce, Particle p){
     }
   }
   
-  if((p.posY + 0.5*p.size) > height && p.velY > 0){    //did you hit the floor?
+  if((p.posY + 0.5*p.size) > arenaHeight && p.velY > 0){    //did you hit the floor?
     if(bounce){  
       p.velY = reverseDirection(p.velY, bounceDamping);
     } else {
@@ -52,5 +52,5 @@ float reverseDirection(float comp, float damping){
 
 void resetParticle(Particle p){
   p.posX = -0.5*p.size;
-  p.posY = height/2;
+  p.posY = arenaHeight/2;
 }

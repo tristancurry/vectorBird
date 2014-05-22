@@ -1,3 +1,15 @@
+String levelName = "Hello Bird";
+String author = "Hieronymous Bosch";
+int par = 24;
+
+float startingVeloX = 2.0;
+float startingVeloY = 1.0;
+color lineColour = color(255,255,255,255);
+color textColour = color(255,255,255,255);
+color birdColour = color(50,0,50,255);
+color skyColour = color(0,0,40,255);
+color antiSkyColour = color(255,255,215,255);
+
 int numGates = 4;
 float gateWidth = 60;
 float gateClearance = 100;
@@ -6,28 +18,47 @@ float boostY = -4.00;
 
 boolean bumperBird = true;    /*like bumper bowling - player will bounce off surfaces instead of dying. Glitchy! */
 boolean sfx = true;   /*displays neat rocket exhaust effect. */
-float bounceDamping = 0.10;
+float bounceDamping = 0.00;
+boolean zoom = false;
 
-Player testPlayer;
+Player goodPlayer;
+ArrayList blipList;          /*dynamic list of Blips*/
+ArrayList blipShadowList;
+ArrayList boostList;
 ArrayList gateList;          /*dynamic list of Gates*/
 ArrayList exhaustList;       /*dynamic list to store exhaust particles (can this be done as a local variable in the exhaust code?) */
 
-
+int arenaWidth = 3072;
+int arenaHeight = 640;
+int viewportWidth = 768;
+int offsetX = 200;
 
 //SETUP runs once at program start
 void setup(){
-  size(960,540);
+  size(1024,768);
   background(0);
   
-  testPlayer = new Player();
+  goodPlayer = new Player(20,arenaHeight/2, startingVeloX, startingVeloY, birdDiameter, lineColour, birdColour);
+  blipList = new ArrayList();
+  blipShadowList = new ArrayList();
+  boostList = new ArrayList();
   exhaustList = new ArrayList();
   gateList = new ArrayList();
   
+  /*add initial player position to blipList, corresponding lack of boost to boostList*/
+  Blip newBlip = new Blip(goodPlayer.posX, goodPlayer.posY, antiSkyColour);
+  Blip newBlipShadow = new Blip(goodPlayer.posX, 0, antiSkyColour);
+  blipList.add(newBlip);
+  blipShadowList.add(newBlip);
+  boostList.add(0.0);
+  
   /*generate gates */
   for(int i = 0; i < numGates; i++){
-  Gate newGate = new Gate(width*(i+1)/(numGates + 1), height/2, gateWidth, gateClearance);
+    Gate newGate = new Gate(arenaWidth*(i+1)/(numGates + 1) + 0.3*viewportWidth, arenaHeight/2, gateWidth, gateClearance);
   gateList.add(newGate);
   }    
+     
+
 }
 
 
@@ -35,38 +66,37 @@ void setup(){
 //main jobs: clear background, update positions of all objects and display them on the screen
 void draw(){
   
-  /*draw semi-transparent background*/
-  fill(0,0,0,30);
-  noStroke();
-  rect(0,0,width,height);
-  
-
+  background(0);
   /*update player position*/
-  testPlayer.update();
+  goodPlayer.update();
   
   /*see if player has bumped into anything=*/
-  checkCollisions(bumperBird, testPlayer);  
+  checkCollisions(bumperBird, goodPlayer);  
   
-  /*draw player and gates to the screen*/
-  testPlayer.display();
+  /*draw all objects to the screen*/
+  pushMatrix();
+    dealWithZoom();
+    drawSky();
+    drawWalls();
+    drawGates();
+    goodPlayer.display();
+    drawBlips();
   
-  for(int i = 0; i < gateList.size(); i++){
-    Gate thisGate = (Gate) gateList.get(i);
-    thisGate.display();
-  }
+    /* if special effects are active, update and display the exhaust particles */
+    if(sfx){
+      updateExhaust();
+    }
+    
 
 
+  popMatrix();
+      drawUI();
   /*if player leaves the screen, start them again on the other side */  
-  if(testPlayer.posX > width + 0.5*testPlayer.size){
-    testPlayer.posX = -0.5*testPlayer.size;
+  if(goodPlayer.posX > arenaWidth + 0.5*goodPlayer.size){
+    goodPlayer.posX = -0.5*goodPlayer.size;
   }
-  if(testPlayer.posX < -0.5*testPlayer.size){
-    testPlayer.posX = width + 0.5*testPlayer.size;
-  }
-  
-/* if special effects are active, update and display the exhaust particles */
-  if(sfx){
-    updateExhaust();
+  if(goodPlayer.posX < -0.5*goodPlayer.size){
+    goodPlayer.posX = arenaWidth + 0.5*goodPlayer.size;
   }
   
 }
@@ -77,27 +107,42 @@ void keyPressed()
 {
   switch (keyCode) {
     case 38: /* up arrow pressed */
-      testPlayer.boost(0, boostY);
+      goodPlayer.boost(0, boostY);
+      Blip upBlip = new Blip(goodPlayer.posX, goodPlayer.posY, antiSkyColour);
+      blipList.add(upBlip);
+      upBlip = new Blip(goodPlayer.posX, arenaHeight, antiSkyColour);
+      blipShadowList.add(upBlip);
+      boostList.add(boostY);
       if(sfx){
         //create a little cloud of exhaust particles
         makeExhaust(0,-1*boostY);
       }
     break;
     case 40: /* down arrow pressed */
-      testPlayer.boost(0, -1*boostY);
+      goodPlayer.boost(0, -1*boostY);
+      Blip downBlip = new Blip(goodPlayer.posX, goodPlayer.posY, antiSkyColour);
+      blipList.add(downBlip);
+      downBlip = new Blip(goodPlayer.posX, arenaHeight, antiSkyColour);
+      blipShadowList.add(downBlip);
+      boostList.add(-1*boostY);
        if(sfx){
         //create a little cloud of exhaust particles
         makeExhaust(0, boostY);
-    }
+      }
+      
+    break;
+    case 90: /* Z-key pressed */
+      zoom = !zoom;
+    break;
+    case 83: /* S-key pressed */
+      saveReplay();
+    break;
+    case 76: /* L-key pressed */
+      loadLevel("levelX");
   }
 }
 
 
 
-void makeExhaust(float _velX, float _velY){
-  for(int i = 0; i < 25; i ++){
-        Exhaust newExhaust = new Exhaust(testPlayer.posX, testPlayer.posY, _velX,_velY);
-        exhaustList.add(newExhaust);
-        }
-}
+
 
