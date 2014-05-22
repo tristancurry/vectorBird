@@ -13,7 +13,6 @@ void dealWithZoom(){
 void drawBlips(){
   for(int i = 0; i < blipList.size(); i++){
     Blip thisBlip = (Blip) blipList.get(i);
-    thisBlip.display();
     stroke(thisBlip.blipColour);
     strokeWeight(2);
     if(i > 0){
