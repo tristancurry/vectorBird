@@ -112,7 +112,7 @@ void keyPressed()
       blipList.add(upBlip);
       upBlip = new Blip(goodPlayer.posX, arenaHeight, antiSkyColour);
       blipShadowList.add(upBlip);
-      boostList.add(boostY);
+      boostList.add(1.0);
       if(sfx){
         //create a little cloud of exhaust particles
         makeExhaust(0,-1*boostY);
@@ -124,7 +124,7 @@ void keyPressed()
       blipList.add(downBlip);
       downBlip = new Blip(goodPlayer.posX, arenaHeight, antiSkyColour);
       blipShadowList.add(downBlip);
-      boostList.add(-1*boostY);
+      boostList.add(-1.0);
        if(sfx){
         //create a little cloud of exhaust particles
         makeExhaust(0, boostY);
