@@ -175,8 +175,13 @@ void pauseGame(){
 }
 
 void finishGame(){
+  if(finished == false){
   finished = true;
   pause = true;
+  Blip endBlip = new Blip(goodPlayer.posX,goodPlayer.posY,antiSkyColour);
+  blipList.add(endBlip);
+  boostList.add(0.0);
+  }
   
 }
 
