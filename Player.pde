@@ -2,7 +2,7 @@ class Player extends Particle {
 
   color strokeColour = color(255,255,0,255);
   color ellipseColour = color(100,0,100,255);
-
+  float rotation;
 
   ///Constructor: runs once when object is created///
   
@@ -71,9 +71,15 @@ class Player extends Particle {
   float findRotation(float compX, float compY){
     float angle = atan(compY/compX);
     
+   
     //correct the angle if it should really be in quadrants 3 or 4
     if(compX < 0){
       angle = angle + PI;
+    }
+    
+    //correction for pause-mode, where angle would equal atan(0/0);
+    if(compY == 0 && compX == 0){
+      angle = rotation;
     }
     
     return angle;

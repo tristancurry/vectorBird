@@ -16,10 +16,13 @@ float gateClearance = 100;
 float birdDiameter = 5;
 float boostY = -4.00;
 
-boolean bumperBird = true;    /*like bumper bowling - player will bounce off surfaces instead of dying. Glitchy! */
+boolean bumperBird = false;    /*like bumper bowling - player will bounce off surfaces instead of dying. Glitchy! */
 boolean sfx = true;   /*displays neat rocket exhaust effect. */
 float bounceDamping = 0.00;
 boolean zoom = false;
+boolean pause = false;
+float storedVelX;
+float storedVelY;
 
 Player goodPlayer;
 ArrayList blipList;          /*dynamic list of Blips*/
@@ -93,7 +96,8 @@ void draw(){
       drawUI();
   /*if player leaves the screen, start them again on the other side */  
   if(goodPlayer.posX > arenaWidth + 0.5*goodPlayer.size){
-    goodPlayer.posX = -0.5*goodPlayer.size;
+    //goodPlayer.posX = -0.5*goodPlayer.size;
+    pauseGame();
   }
   if(goodPlayer.posX < -0.5*goodPlayer.size){
     goodPlayer.posX = arenaWidth + 0.5*goodPlayer.size;
@@ -107,29 +111,33 @@ void keyPressed()
 {
   switch (keyCode) {
     case 38: /* up arrow pressed */
-      goodPlayer.boost(0, boostY);
-      Blip upBlip = new Blip(goodPlayer.posX, goodPlayer.posY, antiSkyColour);
-      blipList.add(upBlip);
-      upBlip = new Blip(goodPlayer.posX, arenaHeight, antiSkyColour);
-      blipShadowList.add(upBlip);
-      boostList.add(1.0);
-      if(sfx){
+      if(!pause){
+        goodPlayer.boost(0, boostY);
+        Blip upBlip = new Blip(goodPlayer.posX, goodPlayer.posY, antiSkyColour);
+        blipList.add(upBlip);
+        upBlip = new Blip(goodPlayer.posX, arenaHeight, antiSkyColour);
+        blipShadowList.add(upBlip);
+        boostList.add(1.0);
+        if(sfx){
         //create a little cloud of exhaust particles
-        makeExhaust(0,-1*boostY);
+          makeExhaust(0,-1*boostY);
+        }
       }
     break;
+
     case 40: /* down arrow pressed */
-      goodPlayer.boost(0, -1*boostY);
-      Blip downBlip = new Blip(goodPlayer.posX, goodPlayer.posY, antiSkyColour);
-      blipList.add(downBlip);
-      downBlip = new Blip(goodPlayer.posX, arenaHeight, antiSkyColour);
-      blipShadowList.add(downBlip);
-      boostList.add(-1.0);
-       if(sfx){
+      if(!pause){
+        goodPlayer.boost(0, -1*boostY);
+        Blip downBlip = new Blip(goodPlayer.posX, goodPlayer.posY, antiSkyColour);
+        blipList.add(downBlip);
+        downBlip = new Blip(goodPlayer.posX, arenaHeight, antiSkyColour);
+        blipShadowList.add(downBlip);
+        boostList.add(-1.0);
+        if(sfx){
         //create a little cloud of exhaust particles
-        makeExhaust(0, boostY);
+          makeExhaust(0, boostY);
+        }
       }
-      
     break;
     case 90: /* Z-key pressed */
       zoom = !zoom;
@@ -139,10 +147,50 @@ void keyPressed()
     break;
     case 76: /* L-key pressed */
       loadLevel("levelX");
+      
+    case 80: /* P-key pressed */
+      pauseGame();
+      break;
+      case 65: /* A-key pressed */
+      autoPilot();
   }
 }
 
 
+
+void pauseGame(){
+  if(!pause){
+  storedVelX = goodPlayer.velX;
+  storedVelY = goodPlayer.velY;
+  goodPlayer.velX = 0.0;
+  goodPlayer.velY = 0.0;
+  } else {
+    goodPlayer.velX = storedVelX;
+    goodPlayer.velY = storedVelY;
+  }
+  pause = !pause;
+}
+
+void autoPilot(){
+  goodPlayer.posX = 20;
+  goodPlayer.posY = arenaHeight/2;
+  goodPlayer.velX = startingVeloX;
+  goodPlayer.velY = startingVeloY;
+  pauseGame();
+  for(int i = 0; i < blipShadowList.size(); i++){
+    Blip thisBlip = (Blip) blipShadowList.get(i);
+    Float thisBoost = (Float) boostList.get(i);
+    if(goodPlayer.posX == thisBlip.posX){
+      println("overlap");
+      goodPlayer.boost(0,thisBoost*boostY);
+      if(sfx){
+        //create a little cloud of exhaust particles
+      makeExhaust(0, thisBoost*boostY);
+      }
+      break;
+    }
+  }
+}
 
 
 

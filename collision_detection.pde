@@ -53,4 +53,7 @@ float reverseDirection(float comp, float damping){
 void resetParticle(Particle p){
   p.posX = -0.5*p.size;
   p.posY = arenaHeight/2;
+  p.velX = startingVeloX;
+  p.velY = startingVeloY;
+  pauseGame();
 }

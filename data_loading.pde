@@ -53,6 +53,8 @@ void loadLevel(String level){
     Blip newBlip = new Blip(goodPlayer.posX, goodPlayer.posY, antiSkyColour);
   blipList.add(newBlip);
   boostList.add(0.0);
+  storedVelX = startingVeloX;
+  storedVelY = startingVeloY;
 }
 
 
