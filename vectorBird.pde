@@ -21,6 +21,7 @@ boolean sfx = true;   /*displays neat rocket exhaust effect. */
 float bounceDamping = 0.00;
 boolean zoom = false;
 boolean pause = false;
+boolean finished = false;
 float storedVelX;
 float storedVelY;
 
@@ -70,8 +71,10 @@ void setup(){
 void draw(){
   
   background(0);
-  /*update player position*/
-  goodPlayer.update();
+  /*update player position if game is running*/
+  if(pause == false && finished == false){
+    goodPlayer.update();
+  }
   
   /*see if player has bumped into anything=*/
   checkCollisions(bumperBird, goodPlayer);  
@@ -98,6 +101,7 @@ void draw(){
   if(goodPlayer.posX > arenaWidth + 0.5*goodPlayer.size){
     //goodPlayer.posX = -0.5*goodPlayer.size;
     pauseGame();
+    finished = true;
   }
   if(goodPlayer.posX < -0.5*goodPlayer.size){
     goodPlayer.posX = arenaWidth + 0.5*goodPlayer.size;
@@ -146,7 +150,7 @@ void keyPressed()
       saveReplay();
     break;
     case 76: /* L-key pressed */
-      loadLevel("levelX");
+      loadReplay("replay01");
       
     case 80: /* P-key pressed */
       pauseGame();
@@ -159,19 +163,13 @@ void keyPressed()
 
 
 void pauseGame(){
-  if(!pause){
-  storedVelX = goodPlayer.velX;
-  storedVelY = goodPlayer.velY;
-  goodPlayer.velX = 0.0;
-  goodPlayer.velY = 0.0;
-  } else {
-    goodPlayer.velX = storedVelX;
-    goodPlayer.velY = storedVelY;
-  }
+  if (finished == false){
   pause = !pause;
+  }
 }
 
 void autoPilot(){
+  finished = false;
   goodPlayer.posX = 20;
   goodPlayer.posY = arenaHeight/2;
   goodPlayer.velX = startingVeloX;

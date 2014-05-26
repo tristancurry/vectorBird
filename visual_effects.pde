@@ -2,8 +2,10 @@
 void updateExhaust(){
  for(int i = 0; i < exhaustList.size(); i++){
     Exhaust thisExhaust = (Exhaust) exhaustList.get(i);
+    if(pause == false){
     thisExhaust.update();
     thisExhaust.countdown();
+    }
     if(thisExhaust.exhaustTime < 0){
       exhaustList.remove(i);
     } else {

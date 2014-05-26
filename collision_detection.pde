@@ -6,22 +6,6 @@ void checkCollisions(boolean bounce, Particle p){
     Gate thisGate = (Gate) gateList.get(i);
       if((p.posX + 0.5*p.size) > thisGate.clearBounds[0] && (p.posX - 0.5*p.size) < thisGate.clearBounds[1]){
         if((p.posY - 0.5*p.size) < thisGate.clearBounds[2] || (p.posY + 0.5*p.size) > thisGate.clearBounds[3]){
-          if(bounce){
-            if(sq(p.velX) < 0.005){
-              p.velX = p.velX + random(-0.010,0.010);
-            }
-            if(p.posY  > thisGate.clearBounds[2] && p.posY  < thisGate.clearBounds[3]){
-              if((p.posY - 0.5*p.size) < thisGate.clearBounds[2] && p.velY < 0){
-                p.velY = reverseDirection(p.velY, bounceDamping);
-              } 
-              else if((p.posY + 0.5*p.size) > thisGate.clearBounds[3] && p.velY > 0){
-                p.velY = reverseDirection(p.velY, bounceDamping);
-              }
-            } else {
-            p.velX = reverseDirection(p.velX, 0);
-            }
-          }
-        else {
           resetParticle(p);
         }
       }
@@ -43,7 +27,7 @@ void checkCollisions(boolean bounce, Particle p){
     }
   }
  }
-}
+
 
 
 float reverseDirection(float comp, float damping){
@@ -55,5 +39,5 @@ void resetParticle(Particle p){
   p.posY = arenaHeight/2;
   p.velX = startingVeloX;
   p.velY = startingVeloY;
-  pauseGame();
+ 
 }
