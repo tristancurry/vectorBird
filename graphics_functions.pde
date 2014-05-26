@@ -11,6 +11,7 @@ void dealWithZoom(){
 }
 
 void drawBlips(){
+  if(drawPath == true){
   for(int i = 0; i < blipList.size(); i++){
     Blip thisBlip = (Blip) blipList.get(i);
     stroke(thisBlip.blipColour);
@@ -24,12 +25,19 @@ void drawBlips(){
     }
     
   }
-   for(int i = 0; i < blipShadowList.size(); i++){
-    Blip thisBlip = (Blip) blipShadowList.get(i);
-    thisBlip.display();
-    stroke(thisBlip.blipColour);
-    strokeWeight(1);
-    line(thisBlip.posX, 0, thisBlip.posX, arenaHeight);
+  }
+   for(int i = 0; i < blipList.size(); i++){
+    Blip thisBlip = (Blip) blipList.get(i);
+    float thisBoost = (Float) boostList.get(i);
+    pushMatrix();
+    translate(0, arenaHeight - thisBlip.posY);
+    thisBlip.display(thisBoost);
+    popMatrix();
+    if(drawVerticals == true){
+      stroke(thisBlip.blipColour);
+      strokeWeight(1);
+      line(thisBlip.posX, 0, thisBlip.posX, arenaHeight);
+    }
     
   }
 }

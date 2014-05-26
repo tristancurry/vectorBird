@@ -34,15 +34,52 @@ class Blip{
   
   ///Methods///
   
-  void display(){
+  void display(float boost){
+    int boostInt = int(boost);
     ellipseMode(CENTER);
-    noStroke();
-    fill(blipColour);
-    ellipse(posX, posY, 2*innerRadius, 2*innerRadius);
-    strokeWeight(3);
-    stroke(blipColour);
-    noFill();
-    ellipse(posX, posY, 2*outerRadius, 2*outerRadius);
+    pushMatrix();
+    translate(posX,posY);
+    if(boostInt == 0){
+      noStroke();
+      fill(blipColour);
+      ellipse(0, 0, 2*innerRadius, 2*innerRadius);
+      strokeWeight(3);
+      stroke(blipColour);
+      noFill();
+      ellipse(0, 0, 2*outerRadius, 2*outerRadius); 
+      
+    } else if(boostInt > 0){
+      for(int i = 0; i < boostInt; i++){
+        noStroke();
+        fill(blipColour);
+        ellipse(0, 0, 2*innerRadius, 2*innerRadius);
+        translate(0, 1.732*outerRadius);
+        strokeWeight(3);
+        stroke(blipColour);
+        noFill();
+        drawTriangle(); 
+      } 
+    }
+    if(boostInt < 0){
+       rotate(PI);
+       translate(0,boostInt*1.732*outerRadius);
+       for(int i = 0; i > boostInt; i--){
+        translate(0, 1.732*outerRadius);
+        
+        noStroke();
+        fill(blipColour);
+        ellipse(0, 0, 2*innerRadius, 2*innerRadius);
+        strokeWeight(3);
+        stroke(blipColour);
+        noFill();
+        drawTriangle(); 
+      } 
+    }
+    popMatrix();
+  }
+  
+  void drawTriangle(){
+    triangle(-outerRadius,0,outerRadius,0,0,-1.732*outerRadius);
   }
   
 }
