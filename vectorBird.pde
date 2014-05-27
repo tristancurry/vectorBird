@@ -22,6 +22,7 @@ float bounceDamping = 0.00;
 boolean zoom = false;
 boolean pause = false;
 boolean finished = false;
+boolean adjust = false;
 boolean drawPath = false;
 boolean drawVerticals = false;
 boolean auto = false;
@@ -38,6 +39,8 @@ int arenaWidth = 3072;
 int arenaHeight = 640;
 int viewportWidth = 768;
 int offsetX = 200;
+
+int currentSelection = 0;
 
 //SETUP runs once at program start
 void setup(){
@@ -116,7 +119,10 @@ void keyPressed()
 {
   switch (keyCode) {
     case 38: /* up arrow pressed */
-      if(!pause){
+    if(adjust){
+      adjustBoost(1.0);
+      break;
+    } else if(!pause){
         if(auto){
           disengageAutoPilot();
         }
@@ -133,7 +139,10 @@ void keyPressed()
     break;
 
     case 40: /* down arrow pressed */
-      if(!pause){
+        if(adjust){
+      adjustBoost(1.0);
+      break;
+        } else if(!pause){
         if(auto){
           disengageAutoPilot();
         }
@@ -160,9 +169,28 @@ void keyPressed()
       
     case 80: /* P-key pressed */
       pauseGame();
+      adjust = false;
       break;
       case 65: /* A-key pressed */
       beginAutoPilot();
+      adjust = false;
+      break;
+      case 32: /* spacebar pressed */
+      if(pause == true){
+      adjust = true;
+      cycleSelection();
+      }
+      break;
+      case 37: /* left arrow pressed */
+      if(adjust == true){
+      adjustBlipX(-1.0);
+      }
+      break;
+      case 39: /* right arrow pressed */
+      if(adjust == true){
+      adjustBlipX(1.0);
+      }
+      break;
   }
 }
 
@@ -171,6 +199,13 @@ void keyPressed()
 void pauseGame(){
   if (finished == false){
   pause = !pause;
+  for(int i = 0; i < blipList.size(); i++){
+    Blip thisBlip = (Blip) blipList.get(i);
+    thisBlip.blipColour = antiSkyColour;
+    currentSelection = 0;
+    adjust = false;
+  
+  }
   }
 }
 
@@ -222,7 +257,6 @@ void autoPilot(){
     Blip thisBlip = (Blip) blipList.get(i);
     Float thisBoost = (Float) boostList.get(i);
     if(goodPlayer.posX == thisBlip.posX){
-      println("overlap");
       goodPlayer.boost(0,thisBoost*boostY);
       if(sfx){
         //create a little cloud of exhaust particles
@@ -231,4 +265,37 @@ void autoPilot(){
       break;
     }
   }
+}
+
+void cycleSelection(){
+    Blip thatBlip = (Blip) blipList.get(currentSelection);
+  thatBlip.blipColour = antiSkyColour;
+  currentSelection++;
+
+  if(currentSelection >= blipList.size() - 1){
+    currentSelection = 1;
+  }
+
+  Blip thisBlip = (Blip) blipList.get(currentSelection);
+  thisBlip.blipColour = color(0,255,0);
+}
+
+void adjustBlipX(float amt){
+ Blip leftBlip = (Blip) blipList.get(currentSelection - 1);
+ Blip thisBlip = (Blip) blipList.get(currentSelection);
+ Blip rightBlip = (Blip) blipList.get(currentSelection + 1);
+ 
+ thisBlip.posX = thisBlip.posX + amt;
+ thisBlip.posX = constrain(thisBlip.posX, leftBlip.posX + 0.1, rightBlip.posX - 0.1);
+
+}
+
+void adjustBoost(float amt){
+
+ Float thisBoost = (Float) boostList.get(currentSelection);
+
+ 
+ thisBoost = thisBoost + amt;
+ thisBoost = constrain(thisBoost, -5.0, 5.0);
+
 }

@@ -9,7 +9,7 @@ void updateExhaust(){
     if(thisExhaust.exhaustTime < 0){
       exhaustList.remove(i);
     } else {
-    checkCollisions(true, thisExhaust);
+    //checkCollisions(true, thisExhaust);
     thisExhaust.display();
     }
   }

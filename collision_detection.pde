@@ -1,12 +1,12 @@
 
-void checkCollisions(boolean bounce, Particle p){
+void checkCollisions(boolean bounce, Player p){
   
-  //for each gate, check to see if this particle has collided. There are lots of nested conditionals in case we want particles to bounce off the sides
+  //for each gate, check to see if the player has collided. 
   for(int i = 0; i < gateList.size(); i++){
     Gate thisGate = (Gate) gateList.get(i);
       if((p.posX + 0.5*p.size) > thisGate.clearBounds[0] && (p.posX - 0.5*p.size) < thisGate.clearBounds[1]){
         if((p.posY - 0.5*p.size) < thisGate.clearBounds[2] || (p.posY + 0.5*p.size) > thisGate.clearBounds[3]){
-          resetParticle(p);
+          finishGame();;
         }
       }
     }
@@ -15,7 +15,7 @@ void checkCollisions(boolean bounce, Particle p){
     if(bounce){
       p.velY = reverseDirection(p.velY, bounceDamping);
     } else {
-      resetParticle(p);
+      finishGame();
     }
   }
   
@@ -23,7 +23,7 @@ void checkCollisions(boolean bounce, Particle p){
     if(bounce){  
       p.velY = reverseDirection(p.velY, bounceDamping);
     } else {
-      resetParticle(p);
+      finishGame();
     }
   }
  }
