@@ -283,7 +283,10 @@ void cycleSelection(){
 void adjustBlipX(float amt){
  Blip leftBlip = (Blip) blipList.get(currentSelection - 1);
  Blip thisBlip = (Blip) blipList.get(currentSelection);
- Blip rightBlip = (Blip) blipList.get(currentSelection + 1);
+ Blip rightBlip = thisBlip;
+ if (blipList.size() > currentSelection + 1){
+   rightBlip = (Blip) blipList.get(currentSelection + 1);
+ }
  
  thisBlip.posX = thisBlip.posX + amt;
  thisBlip.posX = constrain(thisBlip.posX, leftBlip.posX + 0.1, rightBlip.posX - 0.1);
